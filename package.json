@@ -12,7 +12,9 @@
   "dependencies": {
     "ejs": "^3.0.1",
     "express": "^4.17.1",
-    "leaflet": "^1.6.0",
+    "express-session": "^1.17.0",
+    "express-validator": "^6.4.0",
+    "http-errors": "^1.7.3",
     "mongoose": "^5.9.4"
   },
   "devDependencies": {
