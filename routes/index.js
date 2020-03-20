@@ -4,6 +4,7 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
+    // res.send('Svelte comes here');
     res.render('index');
   } catch (err) {
     res.render('error');
