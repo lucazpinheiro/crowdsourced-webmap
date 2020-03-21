@@ -1,10 +1,20 @@
 const express = require('express');
 
+const data = require('./../data');
+
 const router = express.Router();
+
+
+router.get('/mapData', async (req, res) => {
+  try {
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 router.get('/', async (req, res) => {
   try {
-    // res.send('Svelte comes here');
     res.render('index');
   } catch (err) {
     res.render('error');

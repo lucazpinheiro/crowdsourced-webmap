@@ -1,4 +1,3 @@
-const obj = {};
 const initialCordinates = [-27.59, -48.54]; // Cordenadas de Florianópolis
 const initialZoom = 12;
 
@@ -6,21 +5,38 @@ const map = L.map('map').setView(initialCordinates, initialZoom);
 
 const baseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',
-}).addTo(map);
+});
 
-// const geojson = {
-//   "type": "Feature",
-//   "properties": {},
-//   "geometry": {
-//     "type": "Point",
-//     "coordinates": [
-//       -48.51390838623047,
-//       -27.59745608962857
-//     ]
-//   }
-// };
+baseLayer.addTo(map);
 
-// L.geoJSON(geojson).addTo(map);
+async function getData(callback) {
+  const response = await fetch('/mapData');
+  const geoData = await response.json();
+  callback(geoData);
+}
+
+// L.geoJSON(geojsonFeature, {
+//   onEachFeature: onEachFeature
+// }).addTo(map);
+
+getData((a) => {
+  L.geoJSON(a.data, {
+
+    onEachFeature: (feature, layer) => {
+      if (feature.properties && feature.properties.popupContent) {
+        layer.bindPopup(feature.properties.popupContent);
+      }
+    },
+
+  }).addTo(map);
+});
+
+// async function send() {
+//   const info = document.getElementById('info');
+//   console.log(info);
+//   console.log('onclick send');
+// }
+
 
 const drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
