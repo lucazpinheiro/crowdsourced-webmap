@@ -23,9 +23,17 @@
     <style>
         #map {
             width: 100%;
-            height: 80vh;
+            height: 70vh;
             border: 1px solid rgb(11, 17, 46);
             display: inline-block;
+        }
+
+        .button-wrapper {
+            width: 100%;
+            /* border: 1px solid black; */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 
@@ -38,9 +46,13 @@
         <div id="map"></div>
     </div>
     <div class="container">
-        <form action="" method="POST" class="my-4 form-inline">
-            <input -cequired type="text" name="info" id="inputInfo" class="form-control mr-2">
-            <button class="btn btn-success" onclick="saveObj()" type="submit">SAVE</button>
+        <form action="" method="POST">
+            <div class="form-group">
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+            <div class="button-wrapper">
+                <button class="btn btn-success" onclick="alert('button')" type="submit">SEND</button>
+            </div>
         </form>
     </div>
 
