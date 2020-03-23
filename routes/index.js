@@ -54,7 +54,8 @@ router.post('/post', async (req, res) => {
   console.log('content =>', req.body.content);
   console.log('layer =>', req.body.layer);
   try {
-    res.redirect('/');
+    res.status(201).json({ message: 'registro criado com sucesso' });
+    // res.redirect('/');
   } catch (err) {
     res.render('error');
   }

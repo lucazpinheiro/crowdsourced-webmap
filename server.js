@@ -1,9 +1,13 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const path = require('path');
 const routes = require('./routes/index');
 
 const app = express();
 
+mongoose.connect('mongodb://localhost/crowdsourced-spacial-database', {
+  useNewUrlParser: true, useUnifiedTopology: true,
+});
 
 app.set('view engine', 'ejs');
 

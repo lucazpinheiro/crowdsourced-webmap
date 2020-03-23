@@ -10,10 +10,21 @@ const baseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 baseLayer.addTo(map);
 
 async function getData(callback) {
-  const response = await fetch('/mapData');
-  const geoData = await response.json();
-  console.log('geoData', geoData);
-  callback(geoData);
+  try {
+    const response = await fetch('/mapData');
+    const geoData = await response.json();
+    callback(geoData);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+
+function getCurrentDate() {
+  const date = new Date();
+  const day = date.getDate() < 9 ? `0${date.getDate()}` : date.getDate();
+  const month = date.getMonth() < 9 ? `0${date.getMonth()}` : date.getMonth();
+  return `${date.getFullYear()}-${month}-${day}`;
 }
 
 getData((geoData) => {
@@ -32,7 +43,6 @@ const obj = {
   content: '',
   layer: {},
 };
-
 
 const drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
@@ -83,15 +93,20 @@ map.on(L.Draw.Event.CREATED, (e) => {
 
 
 async function send() {
-  // const info = document.getElementById('info').value;
-  obj.content = document.getElementById('info').value;
-  console.log(obj);
-  const response = await fetch('/post', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(obj),
-  });
-  console.log(response);
+  obj.content = {
+    date: getCurrentDate(),
+    description: document.getElementById('info').value,
+  };
+  try {
+    const response = await fetch('/post', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(obj),
+    });
+    console.log(response);
+  } catch (err) {
+    console.error(err);
+  }
 }
