@@ -1,17 +1,8 @@
 const express = require('express');
 const path = require('path');
-const createError = require('http-errors');
-const session = require('express-session');
 const routes = require('./routes/index');
 
 const app = express();
-
-app.use(session({
-  cookie: { maxAge: 60000 },
-  secret: 'secret',
-  resave: false,
-  saveUninitialized: false,
-}));
 
 
 app.set('view engine', 'ejs');
@@ -19,6 +10,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(express.json());
 app.use(routes);
 // app.use((req, res, next) => {
 //   next(createError(404));

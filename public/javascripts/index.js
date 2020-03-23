@@ -15,10 +15,6 @@ async function getData(callback) {
   callback(geoData);
 }
 
-// L.geoJSON(geojsonFeature, {
-//   onEachFeature: onEachFeature
-// }).addTo(map);
-
 getData((a) => {
   L.geoJSON(a.data, {
 
@@ -31,12 +27,22 @@ getData((a) => {
   }).addTo(map);
 });
 
-// async function send() {
-//   const info = document.getElementById('info');
-//   console.log(info);
-//   console.log('onclick send');
-// }
+const obj = {
+  content: '',
+  layer: {},
+};
 
+// const featureObj = {
+//   "type": "Feature",
+//   "properties": {},
+//   "geometry": {
+//     "type": "Point",
+//     "coordinates": [
+//       -48.55356216430663,
+//       -27.594109168464303
+//     ]
+//   }
+// }
 
 const drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
@@ -45,7 +51,7 @@ const drawControl = new L.Control.Draw({
   draw: {
     polyline: false,
     polygon: true,
-    circle: true,
+    circle: false,
     rectangle: false,
     marker: true,
     circlemarker: false,
@@ -56,42 +62,46 @@ const drawControl = new L.Control.Draw({
 });
 map.addControl(drawControl);
 
-async function saveObj() {
-  const obj = {
-    campo1: 'tá indo, devagar mas tá indo',
-    campo2: [-27.587530, -48.556715],
-  };
 
-  const response = await fetch('./post', {
+map.on(L.Draw.Event.CREATED, (e) => {
+  const { layer, layerType } = e;
+
+  if (layerType === 'polygon') {
+    obj.layer = {
+      type: layerType,
+      coords: layer._latlngs.flat(),
+    };
+  } else {
+    obj.layer = {
+      type: layerType,
+      coords: layer._latlng,
+    };
+  }
+  console.log(obj);
+  // Do whatever else you need to. (save to db; add to map etc)
+  map.addLayer(layer);
+});
+
+// map.on('draw:edited', (e) => {
+//   const { layers } = e;
+//   layers.eachLayer((layer) => {
+//     console.log(layer);
+//     obj.feature = layer;
+//     //do whatever you want; most likely save back to db
+//   });
+// });
+
+
+async function send() {
+  // const info = document.getElementById('info').value;
+  obj.content = document.getElementById('info').value;
+  console.log(obj);
+  const response = await fetch('/post', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(obj),
   });
-
   console.log(response);
-
 }
-
-map.on(L.Draw.Event.CREATED, (e) => {
-  const { layer } = e;
-  console.log(layer);
-
-  // Do whatever else you need to. (save to db; add to map etc)
-  map.addLayer(layer);
-});
-
-map.on('draw:edited', (e) => {
-  const layers = e.layers;
-  layers.eachLayer((layer) => {
-    console.log(layer);
-    //do whatever you want; most likely save back to db
-  });
-});
-
-
-// const editableLayers = new L.FeatureGroup();
-// map.addLayer(editableLayers);
-
-// const featureGroup = L.featureGroup().addTo(map);
