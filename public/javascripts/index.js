@@ -12,11 +12,12 @@ baseLayer.addTo(map);
 async function getData(callback) {
   const response = await fetch('/mapData');
   const geoData = await response.json();
+  console.log('geoData', geoData);
   callback(geoData);
 }
 
-getData((a) => {
-  L.geoJSON(a.data, {
+getData((geoData) => {
+  L.geoJSON(geoData, {
 
     onEachFeature: (feature, layer) => {
       if (feature.properties && feature.properties.popupContent) {
@@ -32,17 +33,6 @@ const obj = {
   layer: {},
 };
 
-// const featureObj = {
-//   "type": "Feature",
-//   "properties": {},
-//   "geometry": {
-//     "type": "Point",
-//     "coordinates": [
-//       -48.55356216430663,
-//       -27.594109168464303
-//     ]
-//   }
-// }
 
 const drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);

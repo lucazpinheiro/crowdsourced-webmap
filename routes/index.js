@@ -16,8 +16,9 @@ function buildGeoJson(parser, doc) {
 function layerParser(layer) {
   const geometry = {};
   if (layer.type === 'polygon') {
-    geometry.coordinates = layer.coords.map((point) => [point.lng, point.lat]);
-    geometry.coordinates.push(geometry.coordinates[0]);
+    const coordsArr = layer.coords.map((point) => [point.lng, point.lat]);
+    coordsArr.push(coordsArr[0]);
+    geometry.coordinates = [[...coordsArr]];
     geometry.type = 'Polygon';
   } else {
     geometry.coordinates = [layer.coords.lng, layer.coords.lat];
@@ -26,9 +27,6 @@ function layerParser(layer) {
   return geometry;
 }
 
-function test(y) {
-  return y.map((doc) => buildGeoJson(layerParser, doc));
-}
 
 router.get('/', async (req, res) => {
   try {
@@ -41,8 +39,10 @@ router.get('/', async (req, res) => {
 
 router.get('/mapData', async (req, res) => {
   try {
-    // const x = data.map((doc) => buildGeoJson(layerParser, doc));
-    const x = test(data);
+    //this must be changed with data coming from a db
+    const x = data.data.map((doc) => buildGeoJson(layerParser, doc));
+    console.log('x =>', x);
+    // console.log('test', test);
     res.json(x);
   } catch (err) {
     res.status(500).json({ message: err.message });
