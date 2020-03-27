@@ -77,7 +77,6 @@ map.on(L.Draw.Event.CREATED, (e) => {
       coords: layer._latlng,
     };
   }
-  console.log(obj);
   // Do whatever else you need to. (save to db; add to map etc)
   map.addLayer(layer);
 });
@@ -94,9 +93,11 @@ map.on(L.Draw.Event.CREATED, (e) => {
 
 async function send() {
   obj.content = {
-    date: getCurrentDate(),
-    description: document.getElementById('info').value,
+    // date: getCurrentDate(),
+    info: document.getElementById('info').value,
   };
+  console.log('obj');
+  console.log(obj);
   try {
     const response = await fetch('/post', {
       method: 'POST',

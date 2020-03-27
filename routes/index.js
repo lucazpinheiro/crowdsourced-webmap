@@ -1,22 +1,24 @@
 const express = require('express');
 
-const data = require('../data');
-
 const router = express.Router();
 
+const DataSchema = require('../models/spatialModel');
 
 function buildGeoJson(parser, doc) {
   return {
     type: 'Feature',
-    properties: doc.content,
+    properties: {
+      popupContent: doc.content.info,
+    },
     geometry: parser(doc.layer),
   };
 }
 
+
 function layerParser(layer) {
   const geometry = {};
   if (layer.type === 'polygon') {
-    const coordsArr = layer.coords.map((point) => [point.lng, point.lat]);
+    const coordsArr = layer.coords.flat().map((point) => [point.lng, point.lat]);
     coordsArr.push(coordsArr[0]);
     geometry.coordinates = [[...coordsArr]];
     geometry.type = 'Polygon';
@@ -39,11 +41,9 @@ router.get('/', async (req, res) => {
 
 router.get('/mapData', async (req, res) => {
   try {
-    //this must be changed with data coming from a db
-    const x = data.data.map((doc) => buildGeoJson(layerParser, doc));
-    console.log('x =>', x);
-    // console.log('test', test);
-    res.json(x);
+    const spatialData = await DataSchema.find();
+    const geoJson = spatialData.map((doc) => buildGeoJson(layerParser, doc));
+    res.json(geoJson);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -51,11 +51,14 @@ router.get('/mapData', async (req, res) => {
 
 
 router.post('/post', async (req, res) => {
-  console.log('content =>', req.body.content);
-  console.log('layer =>', req.body.layer);
+  const obj = new DataSchema({
+    content: req.body.content,
+    layer: req.body.layer,
+  });
+  console.log(obj);
   try {
-    res.status(201).json({ message: 'registro criado com sucesso' });
-    // res.redirect('/');
+    await obj.save();
+    res.status(201).json(obj);
   } catch (err) {
     res.render('error');
   }
