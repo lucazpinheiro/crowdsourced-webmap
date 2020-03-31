@@ -5,25 +5,28 @@ const router = express.Router();
 const DataSchema = require('../models/spatialModel');
 
 function buildGeoJson(parser, doc) {
+  console.log('doc', doc);
   return {
     type: 'Feature',
     properties: {
-      popupContent: doc.content.info,
+      popupContent: doc.info,
     },
-    geometry: parser(doc.layer),
+    // geometry: parser(doc.layer),
+    geometry: parser(doc.coords, doc.type),
+
   };
 }
 
 
-function layerParser(layer) {
+function layerParser(coords, featureType) {
   const geometry = {};
-  if (layer.type === 'polygon') {
-    const coordsArr = layer.coords.flat().map((point) => [point.lng, point.lat]);
+  if (featureType === 'polygon') {
+    const coordsArr = coords.flat().map((point) => [point.lng, point.lat]);
     coordsArr.push(coordsArr[0]);
     geometry.coordinates = [[...coordsArr]];
     geometry.type = 'Polygon';
   } else {
-    geometry.coordinates = [layer.coords.lng, layer.coords.lat];
+    geometry.coordinates = [coords.lng, coords.lat];
     geometry.type = 'Point';
   }
   return geometry;
@@ -42,6 +45,7 @@ router.get('/', async (req, res) => {
 router.get('/mapData', async (req, res) => {
   try {
     const spatialData = await DataSchema.find();
+    console.log(spatialData);
     const geoJson = spatialData.map((doc) => buildGeoJson(layerParser, doc));
     res.json(geoJson);
   } catch (err) {
@@ -52,15 +56,16 @@ router.get('/mapData', async (req, res) => {
 
 router.post('/post', async (req, res) => {
   const obj = new DataSchema({
-    content: req.body.content,
-    layer: req.body.layer,
+    info: req.body.info,
+    coords: req.body.coords,
+    type: req.body.type,
   });
   console.log(obj);
   try {
     await obj.save();
     res.status(201).json(obj);
   } catch (err) {
-    res.render('error');
+    console.log(err);
   }
 });
 

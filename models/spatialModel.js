@@ -2,26 +2,22 @@ const mongoose = require('mongoose');
 
 
 const DataSchema = new mongoose.Schema({
-  content: {
-    info: {
-      type: String,
-      required: true,
-    },
-    date: {
-      type: Date,
-      required: true,
-      default: Date.now,
-    },
+  info: {
+    type: String,
+    required: true,
   },
-  layer: {
-    coords: {
-      type: Object || [Object],
-      require: true,
-    },
-    type: {
-      type: String,
-      required: true,
-    },
+  date: {
+    type: Date,
+    required: true,
+    default: Date.now,
+  },
+  coords: {
+    type: Object || [Object],
+    require: true,
+  },
+  type: {
+    type: String,
+    required: true,
   },
 });
 
