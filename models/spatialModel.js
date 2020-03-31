@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-
 const DataSchema = new mongoose.Schema({
   info: {
     type: String,
@@ -20,6 +19,5 @@ const DataSchema = new mongoose.Schema({
     required: true,
   },
 });
-
 
 module.exports = mongoose.model('Crowd-sourced-data', DataSchema);

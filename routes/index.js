@@ -5,13 +5,11 @@ const router = express.Router();
 const DataSchema = require('../models/spatialModel');
 
 function buildGeoJson(parser, doc) {
-  console.log('doc', doc);
   return {
     type: 'Feature',
     properties: {
       popupContent: doc.info,
     },
-    // geometry: parser(doc.layer),
     geometry: parser(doc.coords, doc.type),
 
   };
@@ -37,8 +35,7 @@ router.get('/', async (req, res) => {
   try {
     res.render('index');
   } catch (err) {
-    res.render('error');
-    console.log(err);
+    res.status(500).json({ message: err.message });
   }
 });
 
@@ -65,7 +62,7 @@ router.post('/post', async (req, res) => {
     await obj.save();
     res.status(201).json(obj);
   } catch (err) {
-    console.log(err);
+    res.status(500).json({ message: err.message });
   }
 });
 

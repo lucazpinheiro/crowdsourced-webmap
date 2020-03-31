@@ -23,7 +23,7 @@ async function getData(callback) {
     const geoData = await response.json();
     callback(geoData);
   } catch (err) {
-    console.error(err);
+    console.log(err);
   }
 }
 
@@ -53,9 +53,6 @@ const drawControl = new L.Control.Draw({
     marker: true,
     circlemarker: false,
   },
-  edit: {
-    featureGroup: drawnItems,
-  },
 });
 map.addControl(drawControl);
 
@@ -76,26 +73,12 @@ map.on(L.Draw.Event.CREATED, (event) => {
   map.addLayer(layer);
 });
 
-// map.on('draw:edited', (e) => {
-//   const { layers } = e;
-//   layers.eachLayer((layer) => {
-//     console.log(layer);
-//     obj.feature = layer;
-//     //do whatever you want; most likely save back to db
-//   });
-// });
-
 
 function getInput() {
   obj.info = document.getElementById('info').value;
   submittCondition.content = true;
 }
 
-function warning() {
-  if (submittCondition.content === false) {
-    alert();
-  }
-}
 
 async function send() {
   if (submittCondition.content === false || submittCondition.feature === false) {
