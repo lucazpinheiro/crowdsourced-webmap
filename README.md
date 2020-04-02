@@ -6,7 +6,10 @@ The application was built with `Node.js` on the back-end using `Express` to serv
 
 Check a live demo [here](https://crowd-source-map-tool.herokuapp.com/)
 
-Running the project locally:
+### Running the project locally:
 1. clone the repo and run `npm install`
 2. create a `.env` file and add the line `DATABASE_URL=< your mongodb connection string >`
 3. then you can run it with `npm run dev` to have hot reload with nodemon or `npm start`
+
+### TO-DO version 2
+* add text-based search
