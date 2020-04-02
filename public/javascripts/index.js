@@ -92,7 +92,8 @@ async function send() {
         },
         body: JSON.stringify(obj),
       });
-      console.log(response);
+      document.getElementById('info').value = '';
+      location.reload();
     } catch (err) {
       console.error(err);
     }
