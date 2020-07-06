@@ -27,7 +27,6 @@ async function getData(callback) {
   }
 }
 
-
 getData((geoData) => {
   L.geoJSON(geoData, {
 
@@ -69,33 +68,71 @@ map.on(L.Draw.Event.CREATED, (event) => {
   }
 
   submittCondition.feature = true;
-  console.log(submittCondition);
   map.addLayer(layer);
 });
 
 
-function getInput() {
-  obj.info = document.getElementById('info').value;
-  submittCondition.content = true;
-}
+// function getInput() {
+//   obj.info = document.getElementById('info').value;
+//   submittCondition.content = true;
+// }
 
 
-async function send() {
-  if (submittCondition.content === false || submittCondition.feature === false) {
-    alert('You must add a geometry to the map and and some text info before submmit');
-  } else {
-    try {
-      const response = await fetch('/post', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(obj),
-      });
-      document.getElementById('info').value = '';
-      location.reload();
-    } catch (err) {
-      console.error(err);
-    }
+// async function send() {
+//   if (submittCondition.content === false || submittCondition.feature === false) {
+//     alert('You must add a geometry to the map and and some text info before submmit');
+//   } else {
+//     try {
+//       console.log(obj);
+//       const response = await fetch('/post', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify(obj),
+//       });
+//       document.getElementById('info').value = '';
+//       // location.reload();
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   }
+// }
+
+function isEmpty(obj) {
+  for(const key in obj) {
+      if(obj.hasOwnProperty(key))
+          return false;
   }
+  return true;
 }
+
+csForm.onsubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    if (isEmpty(obj.coords)) throw new Error('You must add some geometry on the map');
+
+    const formObjt = new FormData(csForm);
+
+    obj.info = formObjt.get('info');
+
+    const response = await fetch('/post', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(obj),
+    });
+
+    if (response.status === 201) {
+      alert('Success!');
+      location.reload();
+    } else {
+      throw new Error('Sorry, something went wrong. An error has occurred on the server. Please, try again');
+    }
+  } catch (err) {
+    alert(err);
+    location.reload();
+  }
+};
