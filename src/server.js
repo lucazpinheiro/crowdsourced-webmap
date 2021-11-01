@@ -31,6 +31,7 @@ app.use(express.json())
 app.get('/', handler.main)
 app.get('/mapData', handler.mapData)
 app.post('/post', handler.post)
+app.delete('/mapData/:featureId', handler.deleteFeat)
 
 // error handler
 app.use((req, res, next) => {

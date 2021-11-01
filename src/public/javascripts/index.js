@@ -28,12 +28,32 @@ async function getData (callback) {
   }
 }
 
+async function deleteFeat () {
+  try {
+    const rawResponse = await fetch(`/mapData/${this.featId}`, { method: 'DELETE' })
+    const response = await rawResponse.json()
+    console.log(response)
+  } catch (err) {
+    console.log(err)
+    /**
+     * TODO:
+     * make a better error handling system
+     */
+  }
+}
+
+function callDelete (id) {
+  deleteFeat.call({ featId: id })
+}
+
 getData((geoData) => {
   leaflet.geoJSON(geoData, {
 
     onEachFeature: (feature, layer) => {
       if (feature.properties && feature.properties.popupContent) {
-        layer.bindPopup(feature.properties.popupContent)
+        console.log(feature.properties.featId)
+        layer.bindPopup(`${feature.properties.popupContent} <button onclick="callDelete('${feature.properties.featId}')">delete</button>`)
+        // layer.bindPopup(feature.properties.popupContent)
       }
     }
 
