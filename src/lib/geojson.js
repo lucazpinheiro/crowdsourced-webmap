@@ -16,6 +16,7 @@ function buildGeoJson (parser, doc) {
   return {
     type: 'Feature',
     properties: {
+      enabled: doc.enabled,
       popupContent: doc.info,
       featId: doc._id
     },
