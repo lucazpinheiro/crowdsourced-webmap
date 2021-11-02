@@ -78,10 +78,21 @@ module.exports = {
      */
   },
 
-  async findOne (property, value) {
-    /**
-     * TODO: 
-     * - return first feature wich falls on the query for property and value passed as parameter
-     */
+  async find (property, value, many) {
+    try {
+      const query = {
+        [property]: value
+      }
+      const allFeatures = await SpatialData.find(query)
+
+      if (many) {
+        return [allFeatures, null]
+      }
+
+      const [firstFeature] = allFeatures
+      return [firstFeature, null]
+    } catch (err) {
+      return [null, err]
+    }
   }
 }

@@ -30,6 +30,7 @@ app.use(express.json())
 // routes
 app.get('/', handler.main)
 app.get('/mapData', handler.mapData)
+app.get('/mapData/:featureId', handler.filter)
 app.post('/post', handler.post)
 app.delete('/mapData/:featureId', handler.deleteFeat)
 
