@@ -4,18 +4,13 @@ if (process.env.NODE_ENV !== 'production') {
 
 const createError = require('http-errors')
 const express = require('express')
-const mongoose = require('mongoose')
 const path = require('path')
-const handler = require('./handlers')
+const connection = require('./db')
+const handlers = require('./handlers')
 
 const app = express()
 
-mongoose.connect(process.env.DATABASE_URL, {
-  useNewUrlParser: true, useUnifiedTopology: true
-})
-const db = mongoose.connection
-db.on('error', (err) => console.error(err))
-db.once('open', () => console.log('Connected to Database'))
+connection()
 
 // set ejs as template
 app.set('view engine', 'ejs')
@@ -28,11 +23,12 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
 
 // routes
-app.get('/', handler.main)
-app.get('/mapData', handler.mapData)
-app.get('/mapData/:featureId', handler.filter)
-app.post('/post', handler.post)
-app.delete('/mapData/:featureId', handler.deleteFeat)
+app.get('/', handlers.main)
+app.get('/feature/all', handlers.getAllFeatures)
+app.post('/feature/new', handlers.createNewFeature)
+app.patch('/feature/disable/:featureId', handlers.disableFeature)
+app.delete('/feature/delete/:featureId', handlers.deleteFeature)
+// app.get('/feature/filter/:featureId', handlers.filter)
 
 // error handler
 app.use((req, res, next) => {
