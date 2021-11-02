@@ -75,12 +75,16 @@ module.exports = {
     }
   },
 
-  async disabledFeature (property, value) {
-    /**
-     * TODO: 
-     * - add a enabled property to the features in the db with a boolean value
-     * - set feature enabled property to false
-     */
+  async disableFeature (property, value) {
+    try {
+      const query = {
+        [property]: value
+      }
+      const featureDisabled = await SpatialData.findOneAndUpdate(query, { enabled: false })
+      return [featureDisabled, null]
+    } catch (err) {
+      return [null, err]
+    }
   },
 
   async find (property, value, many) {
