@@ -1,18 +1,24 @@
-function layerParser (coords, featureType) {
-  const geometry = {}
-  if (featureType === 'polygon') {
-    const coordsArr = coords.flat().map((point) => [point.lng, point.lat])
-    coordsArr.push(coordsArr[0])
-    geometry.coordinates = [[...coordsArr]]
-    geometry.type = 'Polygon'
-  } else {
-    geometry.coordinates = [coords.lng, coords.lat]
-    geometry.type = 'Point'
+
+function geometryParser (coordinates, type) {
+  if (type === 'Point') {
+    const { lat, lng } = coordinates
+    return {
+      type,
+      coordinates: [lng, lat]
+    }
   }
-  return geometry
+
+  const polygonCoordinates = coordinates.map(point => [point.lng, point.lat])
+  const [initialPoint] = polygonCoordinates
+  polygonCoordinates.push(initialPoint)
+
+  return {
+    type,
+    coordinates: [polygonCoordinates]
+  }
 }
 
-function buildGeoJson (parser, doc) {
+module.exports = (doc) => {
   return {
     type: 'Feature',
     properties: {
@@ -20,11 +26,6 @@ function buildGeoJson (parser, doc) {
       popupContent: doc.info,
       featId: doc._id
     },
-    geometry: parser(doc.coords, doc.type)
+    geometry: geometryParser(doc.coords, doc.type)
   }
-}
-
-module.exports = {
-  buildGeoJson,
-  layerParser
 }
