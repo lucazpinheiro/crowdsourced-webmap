@@ -1,4 +1,3 @@
-// const {} = require('../typedefs')
 const mongoose = require('mongoose')
 
 const SpatialDataSchema = new mongoose.Schema({
