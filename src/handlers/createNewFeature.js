@@ -1,9 +1,14 @@
 const SpatialModel = require('../models/spatialModel')
+const { capitalizeFirstLetter, formatCoordinates } = require('../lib/formatData')
 
 module.exports = async (req, res) => {
   try {
     const { info, coords, type } = req.body
-    const [newFeature, error] = await SpatialModel.createNewFeature(info, coords, type)
+    const [newFeature, error] = await SpatialModel.createNewFeature(
+      info,
+      formatCoordinates(coords),
+      capitalizeFirstLetter(type)
+    )
 
     if (error) {
       throw error

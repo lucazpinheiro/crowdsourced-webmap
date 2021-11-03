@@ -20,8 +20,9 @@ baseLayer.addTo(map)
 
 async function getData (callback) {
   try {
-    const response = await fetch('/mapData')
+    const response = await fetch('/feature/all')
     const geoData = await response.json()
+    console.log(geoData)
     callback(geoData)
   } catch (err) {
     console.log(err)
@@ -82,7 +83,7 @@ map.on(leaflet.Draw.Event.CREATED, (event) => {
     obj.type = layerType
     obj.coords = layer._latlngs.flat()
   } else {
-    obj.type = layerType
+    obj.type = 'point'
     obj.coords = layer._latlng
   }
 
@@ -109,7 +110,7 @@ csForm.onsubmit = async (e) => {
 
     obj.info = formObjt.get('info')
 
-    const response = await fetch('/post', {
+    const response = await fetch('/feature/new', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
