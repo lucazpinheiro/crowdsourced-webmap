@@ -1,6 +1,6 @@
 
 function geometryParser (coordinates, type) {
-  if (type === 'Point') {
+  if (['point', 'marker'].includes(type.toLowerCase())) {
     const { lat, lng } = coordinates
     return {
       type,
