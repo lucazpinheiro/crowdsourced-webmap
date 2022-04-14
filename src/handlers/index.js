@@ -1,7 +1,7 @@
-const getAllFeatures = require('./getAllFeatures')
-const createNewFeature = require('./createNewFeature')
-const deleteFeature = require('./deleteFeature')
-const disableFeature = require('./disableFeature')
+import getAllFeatures from './getAllFeatures.js'
+import createNewFeature from './createNewFeature.js'
+import deleteFeature from './deleteFeature.js'
+import disableFeature from './disableFeature.js'
 
 async function main (req, res) {
   try {
@@ -39,7 +39,7 @@ async function main (req, res) {
 //   }
 // }
 
-module.exports = {
+export default {
   main,
   getAllFeatures,
   createNewFeature,

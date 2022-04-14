@@ -23,7 +23,7 @@ function formatCoordinates (coordinates) {
   }
 }
 
-module.exports = {
+export {
   capitalizeFirstLetter,
   formatCoordinates
 }

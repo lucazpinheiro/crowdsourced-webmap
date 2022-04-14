@@ -1,6 +1,6 @@
-const SpatialModel = require('../models/spatialModel')
+import SpatialModel from '../models/spatialModel.js'
 
-module.exports = async (req, res) => {
+export default async (req, res) => {
   try {
     const { featureId } = req.params
     const [deletedCount, error] = await SpatialModel.deleteFeature('_id', featureId)

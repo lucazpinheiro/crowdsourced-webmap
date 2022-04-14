@@ -1,12 +1,10 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
-const DB_CREDENTIALS = process.env.DATABASE_URL
+const DB_CREDENTIALS = process.env.DATABASE_URL || 'mongodb://localhost:27017/test'
 
-module.exports = () => {
-  mongoose.connect(DB_CREDENTIALS, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
+export default () => {
+  console.log(DB_CREDENTIALS)
+  mongoose.connect(DB_CREDENTIALS)
   const db = mongoose.connection
   db.on('error', (err) => {
     console.error(err)

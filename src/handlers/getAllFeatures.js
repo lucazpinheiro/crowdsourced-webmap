@@ -1,7 +1,7 @@
-const SpatialModel = require('../models/spatialModel')
-const geojson = require('../lib/geojson')
+import SpatialModel from '../models/spatialModel.js'
+import geojson from '../lib/geojson.js'
 
-module.exports = async (req, res) => {
+export default async (req, res) => {
   try {
     const [spatialData, error] = await SpatialModel.getAllFeatures()
 

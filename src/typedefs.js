@@ -14,4 +14,3 @@
  * @property {string} type
  * @property {string} _id
  */
-

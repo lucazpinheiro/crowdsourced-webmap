@@ -1,23 +1,14 @@
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
+import createError from 'http-errors'
+import express from 'express'
+import connection from './db.js'
+import handlers from './handlers/index.js'
+import dotenv from 'dotenv'
 
-const createError = require('http-errors')
-const express = require('express')
-const path = require('path')
-const connection = require('./db')
-const handlers = require('./handlers')
+dotenv.config()
 
 const app = express()
 
 connection()
-
-// set ejs as template
-app.set('view engine', 'ejs')
-
-// set path to ejs files public files
-app.set('views', path.join(__dirname, 'views'))
-app.use(express.static(path.join(__dirname, 'public')))
 
 // setting json middleware
 app.use(express.json())

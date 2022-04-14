@@ -1,7 +1,7 @@
-const SpatialModel = require('../models/spatialModel')
-const { capitalizeFirstLetter, formatCoordinates } = require('../lib/formatData')
+import SpatialModel from '../models/spatialModel.js'
+import { capitalizeFirstLetter, formatCoordinates } from '../lib/formatData.js'
 
-module.exports = async (req, res) => {
+export default async (req, res) => {
   try {
     const { info, coords, type } = req.body
     const [newFeature, error] = await SpatialModel.createNewFeature(

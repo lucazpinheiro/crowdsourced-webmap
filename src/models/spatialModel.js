@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const SpatialDataSchema = new mongoose.Schema({
   info: {
@@ -27,7 +27,7 @@ const SpatialDataSchema = new mongoose.Schema({
 
 const SpatialData = mongoose.model('Crowd-sourced-data', SpatialDataSchema)
 
-module.exports = {
+export default {
   /**
    * Access all the features objects in the database.
    *

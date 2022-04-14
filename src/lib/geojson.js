@@ -18,7 +18,7 @@ function geometryParser (coordinates, type) {
   }
 }
 
-module.exports = (doc) => {
+export default (doc) => {
   return {
     type: 'Feature',
     properties: {
