@@ -1,20 +1,31 @@
-import promiseHandler from '../utils/promiseHandler.js'
-
-export default {
-  async getSpatialFeatures (spatialFeatureModel, dbClient) {
-    const [features, error] = await promiseHandler(() => dbClient.read(spatialFeatureModel))
-    if (error) {
-      return [null, error]
+export default ({
+  model,
+  dbClient,
+  promiseHandler
+}) => {
+  return {
+    async getSpatialFeatures (
+      mapDocumentsFromDatabaseToGeojsonFormat,
+      geometryParser
+    ) {
+      const [features, error] = await promiseHandler(() => dbClient.read(model))
+      if (error) {
+        return [null, error]
+      }
+      const featureCollection = {
+        type: 'FeatureCollection',
+        features: mapDocumentsFromDatabaseToGeojsonFormat(features, geometryParser)
+      }
+      return [featureCollection, null]
+    },
+    async createNewFeature (newFeature) {
+      const [savedFeature, error] = await promiseHandler(() => {
+        return dbClient.create(model, newFeature)
+      })
+      if (error) {
+        return [null, error]
+      }
+      return [savedFeature, null]
     }
-    return [features, null]
-  },
-  async createNewFeature (spatialFeatureModel, dbClient, newFeature) {
-    const [savedFeature, error] = await promiseHandler(() => {
-      return dbClient.create(spatialFeatureModel, newFeature)
-    })
-    if (error) {
-      return [null, error]
-    }
-    return [savedFeature, null]
   }
 }

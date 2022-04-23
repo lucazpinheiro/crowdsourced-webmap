@@ -13,7 +13,7 @@ dbClient.connection()
 app.use(express.json())
 
 // routes
-app.get('/feature', spatialFeatureController.handlerGetSpatialFeature)
-app.post('/feature', spatialFeatureController.handlerPostSpatialFeature)
+app.get('/features', spatialFeatureController.handlerGetSpatialFeatures)
+app.post('/features', spatialFeatureController.handlerPostSpatialFeatures)
 
 app.listen(process.env.PORT || 5000, () => console.log('Server Started'))
