@@ -1,3 +1,8 @@
+/**
+ * @param {CoordinatesType|CoordinatesType[]} coordinates
+ * @param {string} featureType
+ * @returns {GeometryType}
+ */
 export default function geometryParser (coordinates, featureType) {
   if (String(featureType).toLocaleLowerCase() === 'point') {
     const { lat, long } = coordinates

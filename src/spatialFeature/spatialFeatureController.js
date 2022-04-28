@@ -2,7 +2,7 @@ import spatialFeatureService from './spatialFeatureService.js'
 import spatialFeatureModel from './spatialFeatureModel.js'
 import dbClient from '../db.js'
 import geometryParser from './geometryParser.js'
-import mapDocumentsFromDatabaseToGeojsonFormat from './mapDocumentsFromDatabaseToGeojsonFormat.js'
+import mapDocFromDBToGeojsonFormat from './mapDocFromDBToGeojsonFormat.js'
 import promiseHandler from '../utils/promiseHandler.js'
 
 const services = spatialFeatureService({
@@ -15,7 +15,7 @@ export default {
   async handlerGetSpatialFeatures (req, res) {
     const [allFeatures, err] = await services
       .getSpatialFeatures(
-        mapDocumentsFromDatabaseToGeojsonFormat,
+        mapDocFromDBToGeojsonFormat,
         geometryParser
       )
     if (err) {

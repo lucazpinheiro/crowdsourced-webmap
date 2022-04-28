@@ -1,8 +1,8 @@
 import { describe, test, expect } from '@jest/globals'
-import mapDocumentsFromDatabaseToGeojsonFormat from '../../src/spatialFeature/mapDocumentsFromDatabaseToGeojsonFormat.js'
+import mapDocFromDBToGeojsonFormat from '../../../src/spatialFeature/mapDocFromDBToGeojsonFormat.js'
 
-describe('geometryParser', () => {
-  test('mapDocumentsFromDatabaseToGeojsonFormat', () => {
+describe('mapDocFromDBToGeojsonFormat', () => {
+  test('mapDocFromDBToGeojsonFormat', () => {
     const documentMock = [{
       enabled: true,
       _id: '112233',
@@ -24,7 +24,7 @@ describe('geometryParser', () => {
       }
     }
 
-    expect(mapDocumentsFromDatabaseToGeojsonFormat(documentMock, mockGeometryParser))
+    expect(mapDocFromDBToGeojsonFormat(documentMock, mockGeometryParser))
       .toEqual([{
         type: 'Feature',
         properties: {

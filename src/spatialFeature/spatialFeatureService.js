@@ -5,7 +5,7 @@ export default ({
 }) => {
   return {
     async getSpatialFeatures (
-      mapDocumentsFromDatabaseToGeojsonFormat,
+      featureMapper,
       geometryParser
     ) {
       const [features, error] = await promiseHandler(() => dbClient.read(model))
@@ -14,7 +14,7 @@ export default ({
       }
       const featureCollection = {
         type: 'FeatureCollection',
-        features: mapDocumentsFromDatabaseToGeojsonFormat(features, geometryParser)
+        features: featureMapper(features, geometryParser)
       }
       return [featureCollection, null]
     },

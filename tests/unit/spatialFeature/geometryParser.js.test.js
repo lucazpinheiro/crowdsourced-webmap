@@ -1,5 +1,5 @@
 import { describe, test, expect } from '@jest/globals'
-import geometryParser from '../../src/spatialFeature/geometryParser.js'
+import geometryParser from '../../../src/spatialFeature/geometryParser.js'
 
 describe('geometryParser', () => {
   test('should parse a geometry of type: \'point\'', () => {

@@ -1,4 +1,4 @@
-export default function mapDocumentsFromDatabaseToGeojsonFormat (documents, geometryParser) {
+export default function mapDocFromDBToGeojsonFormat (documents, geometryParser) {
   return documents.map(document => {
     return {
       type: 'Feature',

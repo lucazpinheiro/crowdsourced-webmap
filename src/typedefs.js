@@ -14,3 +14,9 @@
  * @property {string} type
  * @property {string} _id
  */
+
+/**
+ * @typedef GeometryType
+ * @property {string} type
+ * @property {Array<Array<number>>|Array<number>} coordinates
+ */
