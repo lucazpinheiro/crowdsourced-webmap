@@ -3,21 +3,21 @@ import mongoose from 'mongoose'
 const DataSchema = new mongoose.Schema({
   info: {
     type: String,
-    required: true,
+    required: true
   },
   date: {
     type: Date,
     required: true,
-    default: Date.now,
+    default: Date.now
   },
   coords: {
     type: Object || [Object],
-    require: true,
+    require: true
   },
   type: {
     type: String,
-    required: true,
-  },
-});
+    required: true
+  }
+})
 
-export default mongoose.model('Crowd-sourced-data', DataSchema);
+export default mongoose.model('Crowd-sourced-data', DataSchema)
