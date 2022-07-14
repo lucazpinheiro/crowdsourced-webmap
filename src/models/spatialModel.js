@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose'
 
 const DataSchema = new mongoose.Schema({
   info: {
@@ -20,4 +20,4 @@ const DataSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Crowd-sourced-data', DataSchema);
+export default mongoose.model('Crowd-sourced-data', DataSchema);

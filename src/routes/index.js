@@ -1,8 +1,8 @@
-const express = require('express');
+import express from 'express'
 
 const router = express.Router();
 
-const DataSchema = require('../models/spatialModel');
+import DataSchema from '../models/spatialModel.js'
 
 function buildGeoJson(parser, doc) {
   return {
@@ -66,4 +66,4 @@ router.post('/post', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router

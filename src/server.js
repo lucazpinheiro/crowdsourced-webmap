@@ -1,12 +1,19 @@
+import dotenv from 'dotenv'
 if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
+  dotenv.config();
 }
 
-const createError = require('http-errors');
-const express = require('express');
-const mongoose = require('mongoose');
-const path = require('path');
-const routes = require('./routes/index');
+import createError from 'http-errors'
+import express from 'express'
+import mongoose from 'mongoose'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import routes from './routes/index.js'
+
+// this two line are necessary to make __dirname work with es modules, it will be removed soon
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 const app = express();
 
