@@ -9,7 +9,7 @@ Check a live demo [here](https://crowd-source-map-tool.herokuapp.com/)
 ### How to run:
 The best way to run this project is by using docker and docker-compose, this way don't need to have anything else installed in your machine. Just follow this steps:
 
-1. Make a `.env` file with the same content as `.exemple.env`
+1. Make a `.env` file with the same content as `.example.env`
 2. Run `docker-compose up`
 3. Open http://localhost:5000/
 
