@@ -6,10 +6,12 @@ The application was built with `Node.js` on the back-end using `Express` to serv
 
 Check a live demo [here](https://crowd-source-map-tool.herokuapp.com/)
 
-### Running the project locally:
-1. clone the repo and run `npm install`
-2. create a `.env` file and add the line `DATABASE_URL=< your mongodb connection string >`
-3. then you can run it with `npm run dev` to have hot reload with nodemon or `npm start`
+### How to run:
+The best way to run this project is by using docker and docker-compose, this way don't need to have anything else installed in your machine. Just follow this steps:
+
+1. Make a `.env` file with the same content as `.example.env`
+2. Run `docker-compose up`
+3. Open http://localhost:5000/
 
 ### TO-DO version 2
 * add text-based search

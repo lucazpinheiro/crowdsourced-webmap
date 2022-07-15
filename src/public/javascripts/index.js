@@ -1,29 +1,29 @@
-const initialCordinates = [-27.59, -48.54]; // Cordenadas de Florianópolis
-const initialZoom = 12;
+/* eslint no-use-before-define: 0 */
+const initialCordinates = [-27.59, -48.54] // Cordenadas de Florianópolis
+const initialZoom = 12
 
-const map = L.map('map').setView(initialCordinates, initialZoom);
+const map = L.map('map').setView(initialCordinates, initialZoom)
 
 const baseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',
-});
+})
 
-const obj = {};
+const obj = {}
 
 const submittCondition = {
   feature: false,
-  content: false,
-};
+  content: false
+}
 
-baseLayer.addTo(map);
+baseLayer.addTo(map)
 
-
-async function getData(callback) {
+async function getData (callback) {
   try {
-    const response = await fetch('/mapData');
-    const geoData = await response.json();
-    callback(geoData);
+    const response = await fetch('/mapData')
+    const geoData = await response.json()
+    callback(geoData)
   } catch (err) {
-    console.log(err);
+    console.log(err)
   }
 }
 
@@ -32,16 +32,15 @@ getData((geoData) => {
 
     onEachFeature: (feature, layer) => {
       if (feature.properties && feature.properties.popupContent) {
-        layer.bindPopup(feature.properties.popupContent);
+        layer.bindPopup(feature.properties.popupContent)
       }
-    },
+    }
 
-  }).addTo(map);
-});
+  }).addTo(map)
+})
 
-
-const drawnItems = new L.FeatureGroup();
-map.addLayer(drawnItems);
+const drawnItems = new L.FeatureGroup()
+map.addLayer(drawnItems)
 
 const drawControl = new L.Control.Draw({
   draw: {
@@ -50,27 +49,25 @@ const drawControl = new L.Control.Draw({
     circle: false,
     rectangle: false,
     marker: true,
-    circlemarker: false,
-  },
-});
-map.addControl(drawControl);
-
+    circlemarker: false
+  }
+})
+map.addControl(drawControl)
 
 map.on(L.Draw.Event.CREATED, (event) => {
-  const { layer, layerType } = event;
+  const { layer, layerType } = event
 
   if (layerType === 'polygon') {
-    obj.type = layerType;
-    obj.coords = layer._latlngs.flat();
+    obj.type = layerType
+    obj.coords = layer._latlngs.flat()
   } else {
-    obj.type = layerType;
-    obj.coords = layer._latlng;
+    obj.type = layerType
+    obj.coords = layer._latlng
   }
 
-  submittCondition.feature = true;
-  map.addLayer(layer);
-});
-
+  submittCondition.feature = true
+  map.addLayer(layer)
+})
 
 // function getInput() {
 //   obj.info = document.getElementById('info').value;
@@ -99,40 +96,39 @@ map.on(L.Draw.Event.CREATED, (event) => {
 //   }
 // }
 
-function isEmpty(obj) {
-  for(const key in obj) {
-      if(obj.hasOwnProperty(key))
-          return false;
+function isEmpty (obj) {
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) return false
   }
-  return true;
+  return true
 }
 
 csForm.onsubmit = async (e) => {
-  e.preventDefault();
+  e.preventDefault()
 
   try {
     if (isEmpty(obj.coords)) throw new Error('You must add some geometry on the map');
 
-    const formObjt = new FormData(csForm);
+    const formObjt = new FormData(csForm)
 
-    obj.info = formObjt.get('info');
+    obj.info = formObjt.get('info')
 
     const response = await fetch('/post', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify(obj),
-    });
+      body: JSON.stringify(obj)
+    })
 
     if (response.status === 201) {
-      alert('Success!');
-      location.reload();
+      alert('Success!')
+      location.reload()
     } else {
-      throw new Error('Sorry, something went wrong. An error has occurred on the server. Please, try again');
+      throw new Error('Sorry, something went wrong. An error has occurred on the server. Please, try again')
     }
   } catch (err) {
-    alert(err);
-    location.reload();
+    alert(err)
+    location.reload()
   }
-};
+}
